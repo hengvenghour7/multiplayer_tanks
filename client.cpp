@@ -36,13 +36,11 @@ class Game {
             [playerID](const Player& p) {
                 return p.id == playerID;
             });
-            std::cout<<"found id"<< it->id;
             it->x += speedx;
             it->y += speedy;
         }
         void updateAllPlayers(std::vector<Player> players) {
             allPlayers = players;
-            // std::cout<<"all playyyyy" << allPlayers.size();
         }
         std::vector<Player>::iterator getThisPlayer (int playerID) {
             auto it = std::find_if(allPlayers.begin(), allPlayers.end(),
@@ -87,7 +85,6 @@ int main() {
     iss >> testText >> playerID;
     std::string token1;
     std::getline(iss, token1, ',');
-    std::cout<<"oo player"<< playerMsg;
     while (std::getline(iss, token1, ',')) {
         int id = std::stoi(token1);
         std::getline(iss, token1, ',');
@@ -96,9 +93,7 @@ int main() {
         int y = std::stoi(token1);
         
         players.push_back({id, x, y});
-        std::cout<< "how many times?";
     }
-    std::cout<< "eeerrrr" << playerMsg;
     Game game1(players);
     std::string uu = token1;
     while (!WindowShouldClose()) {
@@ -108,7 +103,6 @@ int main() {
             //         player_update2 = player_update2 + "," + std::to_string(player.id) + "," + std::to_string(player.x) + "," + std::to_string(player.y);
             // }
             // socket.write_some(boost::asio::buffer(player_update2), send_err);
-            // std::cout<<"lllluuuu"<<player_update2;
 
             std::string player_update2{};
             auto thisPlayer = game1.getThisPlayer(playerID);
@@ -117,7 +111,6 @@ int main() {
             //         player_update2 = player_update2 + "," + std::to_string(player.id) + "," + std::to_string(player.x) + "," + std::to_string(player.y);
             // }
             socket.write_some(boost::asio::buffer(player_update2), send_err);
-            std::cout<<"yuuuu "<< player_update2;
             std::array<char, 128> buf2;
 
         size_t len2 = socket.read_some(boost::asio::buffer(buf2), error);
@@ -137,7 +130,6 @@ int main() {
             // std::string firstWord;
             // Now parse the rest as CSV of players
             std::string token;
-            std::cout << "oo player: " << playerMsg2;
             while (std::getline(iss, token1, ',')) {
             int id = std::stoi(token1);
             std::getline(iss, token1, ',');
@@ -148,17 +140,18 @@ int main() {
             players.push_back({id, x, y});
             }
             // Now 'players' contains all initial player positions
-            std::cout<<"vvvvv" << players.size();
             game1.updateAllPlayers(players);
-            std::cout<<"firrrrrr" << (*game1.getAllPlayers()).size();
         }
         
         
         // std::cin.get();
             if (IsKeyDown(KEY_RIGHT)) {
-                    std::string msg = "hello";
+                game1.updatePlayer(playerID, 5, 0);
+
             };
-            if (IsKeyDown(KEY_LEFT))  x -= speed * GetFrameTime();
+            if (IsKeyDown(KEY_LEFT)) {
+                game1.updatePlayer(playerID, -5, 0);
+            };
             if (IsKeyDown(KEY_UP))    {
                 game1.updatePlayer(playerID, 0, -5);
             };

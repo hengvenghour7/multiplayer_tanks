@@ -48,7 +48,6 @@ class tcp_connection
             }
             void handle_write(const boost::system::error_code&, size_t len, std::string data) {
                 auto self = shared_from_this();
-                std::cout<<"new update arrive "<< data;
                 std::string data_2 = data;
                 data_2 = data_2.substr(data_2.find(',') + 1);
                 std::istringstream iss(data_2);
@@ -70,13 +69,11 @@ class tcp_connection
             //         for (playerLocation player: allPlayerLocation) {
             //             player_update = player_update + "," + std::to_string(player.id) + "," + std::to_string(player.x) + "," + std::to_string(player.y);
             //         }
-            //         // std::cout<< "newupdate" <<player_update << std::endl;
             //         boost::asio::async_write(socket_, boost::asio::buffer(player_update),
             //         std::bind(&tcp_connection::handle_read, shared_from_this(), boost::asio::placeholders::error));
             // });
             for (playerLocation& player : allPlayerLocation) {
                 if (player.id == playerUpdate.id) {
-                    std::cout<<"qqqq"<< player.id;
                     player = playerUpdate;
                     break;
                 }
@@ -85,7 +82,6 @@ class tcp_connection
                     for (playerLocation player: allPlayerLocation) {
                         player_update = player_update + "," + std::to_string(player.id) + "," + std::to_string(player.x) + "," + std::to_string(player.y);
                     }
-            std::cout<<"zzzzzz"<< player_update;
             // for easy data checking
             // std::cin.get();
             boost::asio::async_write(socket_, boost::asio::buffer(player_update),
